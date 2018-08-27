@@ -1,0 +1,41 @@
+
+<!-- We can now inject our Resuable AutoComplete Movie Search anywhere in our NG app  -->
+   
+
+<form class="example-form">
+      <mat-form-field class="example-full-width">
+        <input type="text" placeholder="search word" aria-label="Number" matInput [formControl]="searchTerm" [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete">
+    
+          <mat-option *ngFor="let item of searchResult" [value]="item.Title" (click)="onAdd(item)">
+          {{ item.Title  }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </form>
+
+
+    <h4 *ngIf="moviesListArray.length > 0" class="text-center">Movies List</h4>
+
+    <div style="margin:5px 0px">
+        <ul class="list-group">
+          <li class="list-group-item" *ngFor="let item of  moviesListArray">
+            <span class="hover-cursor" [class.text-success]="item.isChecked" (click)="alterCheck(item.$key,item.isChecked)">
+              <i class="fa fa-lg" [ngClass]="item.isChecked?'fa-check-circle-o':'fa-circle-thin'"></i>
+            </span>
+            {{item.title}}
+            <div [hidden]="!item.isChecked" style="margin-top:10px;">
+             
+              <img *ngIf="item.poster != 'N/A'" [src]="item.poster" style="width:150px;" align="left" hspace="10">
+             <div *ngIf="item.imdbID"><strong>ID:</strong> {{item.imdbID}}</div>
+             <div *ngIf="item.type"><strong>Type:</strong> {{item.type}}</div>
+             <div *ngIf="item.year"><strong>Year:</strong> {{item.year}}</div>
+            </div>
+            <span class="hover-cursor text-danger pull-right" (click)="onDelete(item.$key)">
+              <i class="fa fa-trash-o fa-lg"></i>
+            </span>
+          </li>
+        </ul>
+      </div>
+
+
